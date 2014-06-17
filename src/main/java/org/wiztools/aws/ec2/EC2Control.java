@@ -5,6 +5,8 @@ import com.amazonaws.services.ec2.model.StartInstancesRequest;
 import com.amazonaws.services.ec2.model.StartInstancesResult;
 import com.amazonaws.services.ec2.model.StopInstancesRequest;
 import com.amazonaws.services.ec2.model.StopInstancesResult;
+import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
+import com.amazonaws.services.ec2.model.TerminateInstancesResult;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,4 +36,9 @@ public class EC2Control {
         System.out.println("Stop command issued to instances: " + instances);
     }
     
+    public void terminate() {
+        TerminateInstancesRequest req = new TerminateInstancesRequest(instances);
+        TerminateInstancesResult res = client.terminateInstances(req);
+        System.out.println("Terminate command issued to instances: " + instances);
+    }
 }

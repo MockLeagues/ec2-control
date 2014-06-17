@@ -25,6 +25,7 @@ public class EC2ControlMain {
     
     private static final String CMD_START = "start";
     private static final String CMD_STOP = "stop";
+    private static final String CMD_TERMINATE = "terminate";
     
     private static final int EXIT_CLI_ERROR = 1;
     private static final int EXIT_IO_ERROR = 2;
@@ -80,8 +81,9 @@ public class EC2ControlMain {
                 System.exit(EXIT_CLI_ERROR);
             }
             
-            if(command == null || !(command.equals(CMD_START) || command.equals(CMD_STOP))) {
-                System.err.println("Valid commands are `start' or `stop'. You supplied: " + command);
+            if(command == null ||
+                    !(command.equals(CMD_START) || command.equals(CMD_STOP) || command.equals(CMD_TERMINATE))) {
+                System.err.println("Valid commands are `start', `stop' or `terminate'. You supplied: " + command);
                 printCommandLineHelp(System.err);
                 System.exit(EXIT_CLI_ERROR);
             }
@@ -122,6 +124,9 @@ public class EC2ControlMain {
                     break;
                 case CMD_STOP:
                     processor.stop();
+                    break;
+                case CMD_TERMINATE:
+                    processor.terminate();
                     break;
             }
         }

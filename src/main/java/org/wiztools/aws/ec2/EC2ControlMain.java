@@ -27,6 +27,8 @@ public class EC2ControlMain {
     private static final String CMD_STOP = "stop";
     private static final String CMD_TERMINATE = "terminate";
     
+    private static final String OPT_SEQUENTIAL = "sequential";
+    
     private static final int EXIT_CLI_ERROR = 1;
     private static final int EXIT_IO_ERROR = 2;
     private static final int EXIT_EC2_ERROR = 3;
@@ -42,6 +44,7 @@ public class EC2ControlMain {
                 "  -k  Java properties file with AWS credentials.\n" +
                 "  -r  AWS EC2 region (defaults to `us-east-1').\n" +
                 "  -c  Command. Can be either `start' or `stop'.\n" +
+                "  --sequential  Execute the command sequentially on instances.\n" +
                 "  -h  Prints this help.\n";
         
         out.println(opts);
@@ -56,7 +59,7 @@ public class EC2ControlMain {
     public static void main(String[] args) {
         try {
             OptionParser parser = new OptionParser( "a:s:k:r:c:h" );
-            parser.accepts("sequential");
+            parser.accepts(OPT_SEQUENTIAL);
             OptionSet options = parser.parse(args);
             
             if(options.has("h")) {
@@ -65,7 +68,7 @@ public class EC2ControlMain {
             }
             
             EC2ControlConfig config = new EC2ControlConfig();
-            if(options.has("sequential")) {
+            if(options.has(OPT_SEQUENTIAL)) {
                 config.setSequential(true);
             }
             

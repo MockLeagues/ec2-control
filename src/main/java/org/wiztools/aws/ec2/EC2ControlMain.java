@@ -56,11 +56,17 @@ public class EC2ControlMain {
     public static void main(String[] args) {
         try {
             OptionParser parser = new OptionParser( "a:s:k:r:c:h" );
+            parser.accepts("sequential");
             OptionSet options = parser.parse(args);
             
             if(options.has("h")) {
                 printCommandLineHelp(System.out);
                 System.exit(0);
+            }
+            
+            EC2ControlConfig config = new EC2ControlConfig();
+            if(options.has("sequential")) {
+                config.setSequential(true);
             }
             
             String awsCredsFile = (String) options.valueOf("k");
@@ -116,7 +122,7 @@ public class EC2ControlMain {
                 instances.add((String) o);
             }
             
-            EC2Control processor = new EC2Control(client, instances);
+            EC2Control processor = new EC2Control(client, config, instances);
             
             switch (command) {
                 case CMD_START:
